@@ -1,0 +1,11 @@
+.btn-primary-rgba {
+    background-color: rgba(8, 41, 46, 0.1);
+    border: none;
+    color: #174450;
+}
+
+.btn-success-rgba {
+    background-color: rgba(209, 96, 67, 0.1);
+    border: none;
+    color: #d16443;
+}

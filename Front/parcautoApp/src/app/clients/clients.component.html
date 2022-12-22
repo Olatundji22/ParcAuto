@@ -1,0 +1,182 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.27.0/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
+<div class="container text-center">
+    <h4>Liste des Clients</h4><br>
+</div>
+<div class="container">
+    <div class="row justify-content-evenly">
+        <div class="col-4">
+            <button (click)="onOpenModal(null, 'add')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientsModal" style="background-color: rgba(8, 11, 46, 0.1); border: none; color: #0c1db3;">Ajouter un client</button>
+        </div>
+        <div class="col-4">
+            <form class="d-flex my-2" role="search">
+                <input type="search" (ngModelChange)="searchClients(key.value)" #key="ngModel" ngModel name="key" id="searchName" class="form-control mr-sm-2" placeholder="Rechercher un client..." required>
+            </form>
+        </div>
+    </div>
+</div><br>
+<div class="container">
+    <div class="row">
+        <!-- Start col -->
+        <div *ngFor="let clients of clients" class="col-lg-4">
+            <div class="card m-b-30">
+                <div class="card-body py-5">
+                    <div class="row justify-content-evenly">
+                        <!--<div class="col-lg-3 text-center">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdIsLzf2q8MwGpF5yMSpZuWLLf8rP3q_uSg&usqp=CAU" class="img-fluid mb-3" alt="user" />
+                        </div>-->
+                        <div class="col-lg-9">
+                            <h4>{{clients?.nom}} {{clients?.prenom}}</h4>
+                            <p>{{clients?.sexe}}</p>
+                            <div class="button-list mt-4 mb-3">
+                                <button (click)="onOpenModal(clients, 'edit')" type="button" class="btn btn-primary-rgba btn-sm" style="margin-right: 10px" data-bs-toggle="modal" data-bs-target="#updateClientsModal"><i class="feather icon-message-square mr-2"></i>Modifier</button>
+                                <button (click)="onOpenModal(clients, 'delete')" type="button" class="btn btn-success-rgba btn-sm" data-bs-toggle="modal" data-bs-target="#deleteClientsModal"><i class="feather icon-phone mr-2"></i>Supprimer</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-borderless mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row" class="p-1">Tel :</th>
+                                            <td class="p-1">{{clients?.phone}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="p-1">Email :</th>
+                                            <td class="p-1">{{clients?.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="p-1">Adresse:</th>
+                                            <td class="p-1">{{clients?.adress}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End col -->
+    </div>
+</div>
+
+
+<!-- Add Clients Modal -->
+<div class="modal fade" id="addClientsModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmployeeModalLabel">Nouveau Client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #addForm="ngForm" (ngSubmit)="onAddClients(addForm)">
+                    <div class="form-group">
+                        <label for="nom"></label>
+                        <input type="text" ngModel name="nom" class="form-control" id="nom" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom"></label>
+                        <input type="text" ngModel name="prenom" class="form-control" id="prenom" placeholder="Prenom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sexe"></label>
+                        <input type="text" ngModel name="sexe" class="form-control" id="sexe" placeholder="Sexe M / F" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"></label>
+                        <input type="text" ngModel name="phone" class="form-control" id="phone" placeholder="Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"></label>
+                        <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adress"></label>
+                        <input type="text" ngModel name="adress" class="form-control" id="adress" placeholder="Adresse" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-client-form" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-success btn-sm">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateClientsModal" tabindex="-1" role="dialog" aria-labelledby="clientsEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateEmployeeModalLabel">Modifier le Client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+     </button>
+            </div>
+            <div class="modal-body">
+                <form #editForm="ngForm">
+                    <div class="form-group">
+                        <label for="nom"></label>
+                        <input type="text" ngModel="{{editClient?.nom}}" name="nom" class="form-control" id="nom" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom"></label>
+                        <input type="text" ngModel="{{editClient?.prenom}}" name="prenom" class="form-control" id="prenom" placeholder="Prenom" required>
+                    </div>
+                    <input type="hidden" ngModel="{{editClient?.id}}" name="id" class="form-control" id="id">
+                    <input type="hidden" ngModel="{{editClient?.codeClient}}" name="codeClient" class="form-control" id="codeClient">
+                    <div class="form-group">
+                        <label for="sexe"></label>
+                        <input type="text" ngModel="{{editClient?.sexe}}" name="sexe" class="form-control" id="sexe" placeholder="Sexe M / F" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"></label>
+                        <input type="text" ngModel="{{editClient?.phone}}" name="phone" class="form-control" id="phone" placeholder="Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"></label>
+                        <input type="email" ngModel="{{editClient?.email}}" name="email" class="form-control" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adress"></label>
+                        <input type="text" ngModel="{{editClient?.adress}}" name="adress" class="form-control" id="adress" placeholder="Adresse" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="" data-bs-dismiss="modal" class="btn btn-secondary btn-sm">Annuler</button>
+                        <button (click)="onUpdateClients(editForm.value)" data-bs-dismiss="modal" class="btn btn-primary btn-sm">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteClientsModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Supprimer Client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+     </button>
+            </div>
+            <div class="modal-body">
+                <p>Etes-vous sur de vouloir supprimer la ( {{deleteClients?.nom}} {{deleteClients?.prenom}}) de votre base de données ?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <button (click)="onDeleteClients(deleteClients?.id)" class="btn btn-danger" data-bs-dismiss="modal">Oui</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Notification for no clients-->
+<div *ngIf="clients?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">PAS DE CLIENTS</h4>
+        <p>Auncun client trouver.</p>
+    </div>
+</div>

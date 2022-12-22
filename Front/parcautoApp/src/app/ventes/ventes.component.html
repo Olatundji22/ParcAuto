@@ -1,0 +1,119 @@
+<div>
+    <div class="container text-center">
+        <h4>Liste des Ventes effctuées</h4><br>
+    </div>
+    <div class="container">
+        <div class="row justify-content-evenly">
+            <div class="col-4">
+                <button (click)="onOpenModal(null, 'add')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVentesModal" style="background-color: rgba(8, 11, 46, 0.1); border: none; color: #0c1db3;">Ajouter une vente</button>
+            </div>
+            <div class="col-4">
+                <form class="d-flex my-2" role="search">
+                    <input type="search" #key="ngModel" ngModel name="key" id="searchName" class="form-control mr-sm-2" placeholder="Rechercher une vente..." required>
+                </form>
+            </div>
+        </div>
+    </div><br>
+    <div class="container-fluid" id="main-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Marque</th>
+                    <th scope="col">Modele</th>
+                    <th scope="col">Prix de la vente</th>
+                    <th scope="col">Nom de l'acheteur</th>
+                    <th scope="col">Prenom de l'acheteur</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr *ngFor="let ventes of ventes">
+                    <td>{{ventes?.marque}}</td>
+                    <td>{{ventes?.modele}}</td>
+                    <td>{{ventes?.prix}}</td>
+                    <td>{{ventes?.nom}}</td>
+                    <td>{{ventes?.prenom}}</td>
+                    <td>{{ventes?.phone}}</td>
+                    <td>{{ventes?.email}}</td>
+                    <td>{{ventes?.date}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary-rgba btn-sm" data-bs-toggle="modal" data-bs-target="#updateCarsModal" style="margin-right: 30px"><i class="bi bi-pencil"></i></button>
+                        <button type="button" (click)="onOpenModal(ventes, 'delete')" class="btn btn-success-rgba btn-sm" data-bs-toggle="modal" data-bs-target="#deleteVentesModal"><i class="bi bi-trash3"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Add Ventes Modal -->
+<div class="modal fade" id="addVentesModal" tabindex="-1" role="dialog" aria-labelledby="addVentesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addVentesModalLabel">Nouvelle Vente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #addForm="ngForm" (ngSubmit)="onAddVentes(addForm)">
+                    <div class="form-group">
+                        <label for="marque"></label>
+                        <input type="text" ngModel name="marque" class="form-control" id="marque" placeholder="Marque" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modele"></label>
+                        <input type="text" ngModel name="modele" class="form-control" id="modele" placeholder="Modele" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prix"></label>
+                        <input type="text" ngModel name="prix" class="form-control" id="prix" placeholder="Prix" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nom"></label>
+                        <input type="text" ngModel name="nom" class="form-control" id="nom" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom"></label>
+                        <input type="text" ngModel name="prenom" class="form-control" id="prenom" placeholder="Prenom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"></label>
+                        <input type="text" ngModel name="phone" class="form-control" id="phone" placeholder="Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"></label>
+                        <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-ventes-for" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-success btn-sm">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteVentesModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Supprimer Employer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+       </button>
+            </div>
+            <div class="modal-body">
+                <p>Etes-vous sur de vouloir supprimer la vente de ( {{deleteVentes?.marque}} {{deleteVentes?.modele}} ) acheter par ( {{deleteVentes?.nom}} {{deleteVentes?.prenom}} )de votre base de données ?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button (click)="onDeleteVentes(deleteVentes?.id)" class="btn btn-danger" data-bs-dismiss="modal">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
