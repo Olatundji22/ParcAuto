@@ -55,7 +55,7 @@ export class VentesComponent implements OnInit {
   }
 
 
-  //Afficher les voiture presentent dans la base de données
+  //Afficher les ventes presentent=nt dans la base de données
   public getVentes(): void {
     this.allService.getVentes().subscribe(
       (response: Ventes[]) => {
@@ -68,7 +68,7 @@ export class VentesComponent implements OnInit {
   }
 
 
-  //Enregistrer une voiture
+  //Enregistrer une vente
   public onAddVentes(addForm: NgForm): void {
     document.getElementById('add-ventes-form').click();
     this.allService.addVentes(addForm.value).subscribe(
@@ -82,7 +82,20 @@ export class VentesComponent implements OnInit {
       )
   }
 
-  //Supprimer une voiture
+
+  //Modifier une vente
+  public onUpdateVente(vente: Ventes) {
+    this.allService.updateVentes(vente).subscribe(
+      (response: Ventes) => {
+        console.log(response);
+      },
+      (error:HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  //Supprimer une vente
   public onDeleteVentes(venteId: number): void {
     this.allService.deleteVentes(venteId).subscribe(
       (response: void) => {
